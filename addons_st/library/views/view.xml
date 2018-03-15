@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Books List -->
+        <act_window
+            id="library_book_action"
+            name="Library Books"
+            res_model="library.book" />
+        <menuitem
+            id="library_book_root_menu"
+            name="Library"
+            action="library_book_action"
+            parent=""
+            sequence="5" />
+
+        <!-- Books_Form_View -->
+        <record id="library_book_form" model="ir.ui.view">
+            <field name="name">Library_Book_Form</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <field name="image" widget='image' class="oe_avatar" />
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" placeholder="Book's Title"/>
+                                </h1>
+                                <span>
+                                    <button	name= 'in_stock' string="Donate" help="Click to donate if you have the same book" class="oe_highlight"/>
+                                </span>
+                                <button	name= 'in_stock' string="Donate" help="Click to donate if you have the same book" class="oe_highlight"/>
+
+                            </div>
+                    </header>
+                    <group>
+                    <field name="author_ids" widget="many2many_tags"/>
+                    <field name='retail_price'/>
+                    <field name='currency_id'/>
+                    <field name="date_release"/>
+                    <field name="in_stock" readonly="1"/>
+                    </group>
+                    <group>
+                        <notebook>
+                            <page string = 'Issue_History'>
+                                <field name="issue_line">
+                                    <tree editable ='bottom'>
+                                        <field name="issue_date"/>
+                                        <field name="return_date"/>
+                                        <field name="lib_user"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <!-- Books_Tree_View -->
+        <record id="library_book_tree" model="ir.ui.view">
+            <field name="name">Library_Book_List</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="author_ids"/>
+                    <field name="date_release"/>
+                    <field name = 'retail_price'/>
+                    <field name="in_stock" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Books Search -->
+        <record id="library_book_search" model="ir.ui.view">
+            <field name="name">Library_Book_Search</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="author_ids"/>
+                    <filter string="No Authors"
+                        domain="[('author_ids','=',False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="library_book_menu" model="ir.actions.act_window">
+            <field name="name">Library_Books</field>
+            <field name="res_model">library.book</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+             <field name="search_view_id" ref="library_book_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a category.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="library_book_root"
+            name="library_books_menu"
+            sequence="05"/>
+
+        <!--Category_Form -->
+        <record id="book_category_form" model="ir.ui.view">
+            <field name="name">Book_Category_Form</field>
+            <field name="model">book.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name ='name'/>
+                    <field name ='number_of_books'/>
+                </form>
+            </field>
+        </record>
+
+         <record id="open_module_tree_category" model="ir.actions.act_window">
+            <field name="name">Category</field>
+            <field name="res_model">book.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+             <field name="search_view_id" ref="book_category_form"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a category.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_book_category_root"
+            name="book_category_menu"
+            sequence="90"/>
+    </data>
+</odoo>
